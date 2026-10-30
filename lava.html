@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LAVA ESCAPE — IKARUS 2K26</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@500;600;700;800&display=swap');
+
+    :root {
+      --bg: #08051a;
+      --panel: #100a2c;
+      --purple: #741cff;
+      --violet: #a54bff;
+      --gold: #ffb51b;
+      --orange: #ff4b16;
+      --white: #f5efff;
+      --muted: #b9a9db;
+      --cyan: #43eaff
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: radial-gradient(ellipse at 50% 0%, #25104b 0, #0a061b 58%, #05030e 100%);
+      color: var(--white);
+      font-family: Rajdhani, Arial, sans-serif
+    }
+
+    body {
+      padding: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start
+    }
+
+    button {
+      font: 800 17px Rajdhani, sans-serif;
+      cursor: pointer;
+      color: white;
+      border: 2px solid #9b5cff;
+      border-radius: 9px;
+      background: linear-gradient(#28115c, #10072f);
+      box-shadow: 0 4px 0 #070316, 0 0 15px #7b22ff44;
+      transition: .15s
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.2);
+      box-shadow: 0 5px 0 #070316, 0 0 22px #a64cff88
+    }
+
+    button:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #070316
+    }
+
+    #app {
+      width: min(1180px, 100%);
+      border: 2px solid #7826ff;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #09051b;
+      box-shadow: 0 0 32px #651bdf55
+    }
+
+    .topbar {
+      height: 48px;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0d0824;
+      border-bottom: 1px solid #5c20b7
+    }
+
+    .brand-mini {
+      font: 12px 'Press Start 2P';
+      color: #ffb52b;
+      letter-spacing: 1px
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 32px;
+      font-size: 18px
+    }
+
+    .screen {
+      display: none;
+      min-height: 650px;
+      position: relative;
+      overflow: hidden;
+      background: #13092d
+    }
+
+    .screen.active {
+      display: flex
+    }
+
+    .volcano-bg {
+      background:
+        radial-gradient(ellipse at 50% 92%, #ff6a14 0, #bd271b 8%, transparent 32%),
+        radial-gradient(ellipse at 16% 58%, #ff4818 0, transparent 17%),
+        radial-gradient(ellipse at 82% 56%, #ff4c13 0, transparent 18%),
+        linear-gradient(180deg, #14082f 0%, #341044 48%, #160923 100%)
+    }
+
+    .volcano-bg:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .7;
+      background:
+        linear-gradient(135deg, transparent 0 12%, #25103d 12% 17%, transparent 17% 100%),
+        linear-gradient(225deg, transparent 0 16%, #25103d 16% 21%, transparent 21% 100%),
+        repeating-linear-gradient(90deg, transparent 0 72px, #35114344 73px 75px)
+    }
+
+    .volcano-bg:after {
+      content: "";
+      position: absolute;
+      left: -5%;
+      right: -5%;
+      bottom: -65px;
+      height: 190px;
+      background: linear-gradient(180deg, #ff9b22, #ff3c0c 25%, #9c092c 80%);
+      clip-path: polygon(0 30%, 8% 18%, 17% 30%, 25% 12%, 35% 25%, 44% 8%, 54% 24%, 64% 12%, 73% 28%, 84% 8%, 93% 24%, 100% 12%, 100% 100%, 0 100%);
+      filter: drop-shadow(0 -10px 15px #ff641b)
+    }
+
+    /* HOME */
+    #home {
+      align-items: center;
+      justify-content: center;
+      text-align: center
+    }
+
+    .home-content {
+      position: relative;
+      z-index: 2;
+      width: min(560px, 94%);
+      padding: 45px 20px 70px
+    }
+
+    .logo {
+      font: clamp(42px, 8vw, 82px)/.94 'Press Start 2P';
+      letter-spacing: -6px;
+      color: #ff6a13;
+      text-shadow: 4px 4px #8d150f, 7px 7px #270b38, 0 0 20px #ff7c22;
+      transform: rotate(-3deg);
+      margin: 0 0 10px
+    }
+
+    .logo span {
+      display: block;
+      color: #f3edff;
+      font-size: .55em;
+      letter-spacing: -2px;
+      text-shadow: 3px 3px #452071, 0 0 15px #b58cff
+    }
+
+    .tagline {
+      font: 14px 'Press Start 2P';
+      color: #fff;
+      margin: 20px 0 30px;
+      text-shadow: 0 2px #8e1d18
+    }
+
+    .menu-buttons {
+      width: min(290px, 100%);
+      margin: auto;
+      display: grid;
+      gap: 10px
+    }
+
+    .menu-buttons button {
+      height: 48px;
+      border-color: #9c4fff;
+      font: 14px 'Press Start 2P';
+      color: #fff;
+      background: linear-gradient(#22105b, #10072d)
+    }
+
+    .menu-buttons .primary {
+      background: linear-gradient(#ffc02c, #ff790d);
+      color: #26102b;
+      border-color: #ffe27b;
+      box-shadow: 0 4px #a63812, 0 0 20px #ff8a1d88
+    }
+
+    .home-hero {
+      position: absolute;
+      bottom: 30px;
+      left: 6%;
+      font-size: 58px;
+      filter: drop-shadow(0 0 8px #ff4b18)
+    }
+
+    .home-stats {
+      position: absolute;
+      z-index: 2;
+      right: 18px;
+      top: 18px;
+      color: #ffe8a4;
+      font: 10px 'Press Start 2P'
+    }
+
+    /* COMMON PIXEL LANDSCAPE */
+    .scene-art {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden
+    }
+
+    .mountain {
+      position: absolute;
+      bottom: 80px;
+      width: 0;
+      height: 0;
+      border-left: 150px solid transparent;
+      border-right: 150px solid transparent;
+      border-bottom: 270px solid #311047;
+      filter: drop-shadow(0 0 2px #a52a4b)
+    }
+
+    .m1 {
+      left: -80px
+    }
+
+    .m2 {
+      right: -70px;
+      border-bottom-color: #451044;
+      transform: scale(1.2)
+    }
+
+    .lava-river {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: repeating-linear-gradient(165deg, #ff9a20 0 9px, #ff4b0b 10px 20px, #c91c25 21px 30px);
+      box-shadow: 0 -10px 30px #ff541b
+    }
+
+    .lava-river:before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 0;
+      right: 0;
+      height: 22px;
+      background: repeating-linear-gradient(90deg, #ffd34a 0 24px, #ff7b12 25px 50px)
+    }
+
+    /* LEVEL SELECT */
+    #levels {
+      padding: 34px 24px 48px;
+      display: none;
+      flex-direction: column
+    }
+
+    #levels.active {
+      display: flex
+    }
+
+    .screen-title {
+      text-align: center;
+      font: clamp(19px, 3vw, 30px) 'Press Start 2P';
+      margin: 20px 0 38px;
+      text-shadow: 3px 3px #6427a6
+    }
+
+    .back {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 48px;
+      height: 42px;
+      font-size: 23px;
+      z-index: 5
+    }
+
+    .level-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 13px;
+      margin: auto 0
+    }
+
+    .level-card {
+      min-width: 0;
+      padding: 10px 8px 13px;
+      border: 2px solid #8c36ef;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #21104a, #0d0826);
+      text-align: center;
+      box-shadow: 0 0 15px #8c27ff22
+    }
+
+    .level-card:nth-child(3) {
+      border-color: #ffb51b
+    }
+
+    .level-card:nth-child(4) {
+      border-color: #ff5b45
+    }
+
+    .level-card:nth-child(5) {
+      border-color: #f02acb
+    }
+
+    .level-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      background: #4831be;
+      font: 18px 'Press Start 2P';
+      padding-top: 8px
+    }
+
+    .level-art {
+      height: 100px;
+      border-radius: 7px;
+      margin-bottom: 9px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #6b38b7;
+      background: linear-gradient(#21114d 0 45%, #71202c 70%, #ff5a13)
+    }
+
+    .level-art:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: -10%;
+      width: 120%;
+      height: 65%;
+      background: linear-gradient(140deg, transparent 20%, #49204d 21% 50%, transparent 51%), linear-gradient(40deg, transparent 20%, #351445 21% 65%, transparent 66%)
+    }
+
+    .level-art:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 17px;
+      background: #ff6717;
+      box-shadow: 0 -7px 15px #ff5b1a
+    }
+
+    .level-art i {
+      position: absolute;
+      z-index: 1;
+      left: 43%;
+      top: 12px;
+      font-size: 34px;
+      font-style: normal;
+      filter: drop-shadow(0 0 5px #ff8b2a)
+    }
+
+    .level-name {
+      font: 10px 'Press Start 2P';
+      line-height: 1.8;
+      min-height: 40px
+    }
+
+    .difficulty {
+      font: 10px 'Press Start 2P';
+      padding: 7px 3px;
+      border-radius: 6px;
+      margin: 7px 0 9px;
+      background: #08a45a
+    }
+
+    .level-card:nth-child(3) .difficulty {
+      background: #e69b0d
+    }
+
+    .level-card:nth-child(4) .difficulty {
+      background: #e34b1b
+    }
+
+    .level-card:nth-child(5) .difficulty {
+      background: #d81d60
+    }
+
+    .stars {
+      color: #ffbf26;
+      letter-spacing: 3px;
+      font-size: 17px
+    }
+
+    .level-card button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 7px 2px;
+      font-size: 12px
+    }
+
+    /* GAMEPLAY */
+    #gameScreen {
+      display: none;
+      flex-direction: column;
+      min-height: 650px
+    }
+
+    #gameScreen.active {
+      display: flex
+    }
+
+    .hud {
+      position: relative;
+      z-index: 4;
+      display: grid;
+      grid-template-columns: 150px 1fr 90px 50px;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 16px;
+      background: #09051e;
+      border-bottom: 2px solid #7e2bdb
+    }
+
+    .hud-box {
+      border: 2px solid #8b3df2;
+      border-radius: 9px;
+      padding: 6px 10px;
+      background: #130a35;
+      font: 11px 'Press Start 2P';
+      white-space: nowrap
+    }
+
+    .hearts {
+      font-size: 20px;
+      color: #ff3e61;
+      letter-spacing: 2px
+    }
+
+    .hud-center {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      justify-content: center
+    }
+
+    .progress {
+      height: 9px;
+      background: #24154d;
+      border: 1px solid #8750e5;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 7px
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 35%;
+      background: linear-gradient(90deg, #ffc928, #ff7b13)
+    }
+
+    .coin {
+      color: #ffca25;
+      font: 12px 'Press Start 2P';
+      white-space: nowrap
+    }
+
+    .pause {
+      width: 42px;
+      height: 40px;
+      font-size: 20px
+    }
+
+    #world {
+      display: block;
+      width: 100%;
+      height: 510px;
+      background: #160b30;
+      image-rendering: pixelated;
+      touch-action: none
+    }
+
+    .game-controls {
+      position: absolute;
+      z-index: 5;
+      bottom: 18px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none
+    }
+
+    .control-group {
+      display: flex;
+      gap: 10px
+    }
+
+    .game-controls button {
+      pointer-events: auto;
+      width: 62px;
+      height: 52px;
+      font-size: 24px;
+      background: #35164ddd;
+      border-color: #bd79ff
+    }
+
+    .game-controls .safe {
+      width: auto;
+      padding: 0 13px;
+      font: 11px 'Press Start 2P';
+      border-color: #42eaff;
+      color: #6af4ff;
+      background: #09244ddd
+    }
+
+    .safe-indicator {
+      position: absolute;
+      z-index: 5;
+      top: 93px;
+      left: 50%;
+      transform: translateX(-50%);
+      font: 10px 'Press Start 2P';
+      color: #67f4ff;
+      text-shadow: 0 0 8px #00dfff
+    }
+
+    .mobile-note {
+      text-align: center;
+      color: #b9a6db;
+      font-size: 12px;
+      padding: 7px;
+      background: #0b0620
+    }
+
+    /* END SCREENS */
+    #result {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center
+    }
+
+    #result.active {
+      display: flex
+    }
+
+    .result-panel {
+      position: relative;
+      z-index: 2;
+      width: min(500px, 90%);
+      padding: 32px 25px;
+      border: 3px solid #8b32ef;
+      border-radius: 16px;
+      background: #10082deF;
+      box-shadow: 0 0 30px #8c27ff55
+    }
+
+    .result-title {
+      font: clamp(24px, 5vw, 42px) 'Press Start 2P';
+      color: #ffbf22;
+      text-shadow: 4px 4px #98240e;
+      line-height: 1.5
+    }
+
+    .result-title.fail {
+      color: #ff3b2c
+    }
+
+    .big-stars {
+      font-size: 55px;
+      color: #ffd02e;
+      letter-spacing: 10px;
+      margin: 12px
+    }
+
+    .stats {
+      border: 2px solid #8b39e8;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 16px auto;
+      width: min(300px, 100%);
+      font: 13px 'Press Start 2P';
+      line-height: 2
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap
+    }
+
+    .result-actions button {
+      padding: 13px 20px
+    }
+
+    .result-actions .gold {
+      background: linear-gradient(#ffc02c, #ff790d);
+      color: #24102c;
+      border-color: #ffe17c
+    }
+
+    /* HOW TO */
+    #howto {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 25px
+    }
+
+    #howto.active {
+      display: flex
+    }
+
+    .how-panel {
+      position: relative;
+      z-index: 2;
+      width: min(600px, 95%);
+      padding: 30px;
+      border: 2px solid #8c39f3;
+      border-radius: 14px;
+      background: #10082deF
+    }
+
+    .how-panel h2 {
+      font: 18px 'Press Start 2P';
+      color: #ffc02b;
+      line-height: 1.6
+    }
+
+    .how-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #513079;
+      padding: 12px 0;
+      font-size: 20px
+    }
+
+    @media(max-width:760px) {
+      body {
+        padding: 0
+      }
+
+      #app {
+        border-radius: 0;
+        min-height: 100vh
+      }
+
+      .screen {
+        min-height: calc(100vh - 48px)
+      }
+
+      .level-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .level-card:last-child {
+        grid-column: 1/-1;
+        width: 50%;
+        justify-self: center
+      }
+
+      .hud {
+        grid-template-columns: 1fr 1.4fr 55px 42px;
+        gap: 5px;
+        padding: 8px
+      }
+
+      .hud-box {
+        font-size: 8px;
+        padding: 6px
+      }
+
+      .hud-center {
+        gap: 5px;
+        display: block
+      }
+
+      .coin {
+        font-size: 9px
+      }
+
+      #world {
+        height: calc(100vh - 150px);
+        min-height: 400px
+      }
+
+      .screen-title {
+        font-size: 18px
+      }
+
+      .level-art {
+        height: 75px
+      }
+
+      .level-name {
+        font-size: 9px
+      }
+    }
+
+    @media(max-width:420px) {
+      .level-grid {
+        gap: 7px
+      }
+
+      .level-card {
+        padding: 7px 5px
+      }
+
+      .hud {
+        grid-template-columns: 85px 1fr 42px 36px
+      }
+
+      .hearts {
+        font-size: 15px
+      }
+
+      .hud-box {
+        font-size: 7px
+      }
+
+      .pause {
+        width: 34px
+      }
+
+      .game-controls button {
+        width: 52px;
+        height: 48px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="topbar">
+      <div class="brand-mini">IKARUS 2K26 • LAVA ESCAPE</div>
+      <div class="top-actions"><button class="icon-btn" id="soundBtn" title="Sound">♫</button></div>
+    </div>
+
+    <section id="home" class="screen active volcano-bg">
+      <div class="scene-art">
+        <div class="mountain m1"></div>
+        <div class="mountain m2"></div>
+        <div class="lava-river"></div>
+      </div>
+      <div class="home-stats" id="bestHome">BEST: 0</div>
+      <div class="home-hero">🧑🏻‍🚀</div>
+      <div class="home-content">
+        <h1 class="logo">LAVA<span>ESCAPE</span></h1>
+        <div class="tagline">THE FLOOR IS LAVA!</div>
+        <div class="menu-buttons">
+          <button class="primary" id="startBtn">START GAME</button>
+          <button id="levelBtn">LEVEL SELECT</button>
+          <button id="howBtn">HOW TO PLAY</button>
+          <button id="settingsBtn">SETTINGS</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="levels" class="screen volcano-bg">
+      <button class="back" data-go="home">←</button>
+      <h2 class="screen-title">LEVEL SELECT</h2>
+      <div class="level-grid" id="levelGrid"></div>
+    </section>
+
+    <section id="gameScreen" class="screen">
+      <div class="hud">
+        <div class="hud-box"><span>🧑🏻</span> <span id="lives">×3</span> <span class="hearts">♥♥♥</span></div>
+        <div class="hud-center">
+          <div class="hud-box">SCORE: <span id="score">0</span>
+            <div class="progress"><span id="progress"></span></div>
+          </div>
+          <div class="hud-box">DISTANCE: <span id="height">0m</span></div>
+        </div>
+        <div class="coin">🪙 × <span id="coins">0</span></div>
+        <button class="pause" id="pauseBtn">Ⅱ</button>
+      </div>
+      <div style="position:relative;flex:1;min-height:0">
+        <canvas id="world" width="960" height="510"></canvas>
+        <div class="safe-indicator" id="safeLabel"></div>
+        <div class="game-controls">
+          <div class="control-group"><button id="leftBtn">◀</button><button id="rightBtn">▶</button></div>
+          <div class="control-group"><button class="safe" id="safeBtn">SAFE PLATFORM</button><button
+              id="jumpBtn">▲</button></div>
+        </div>
+      </div>
+      <div class="mobile-note">A / D or ← / → to move • SPACE / ↑ to jump • E for temporary safe platform</div>
+    </section>
+
+    <section id="result" class="screen volcano-bg">
+      <div class="scene-art">
+        <div class="mountain m1"></div>
+        <div class="mountain m2"></div>
+        <div class="lava-river"></div>
+      </div>
+      <div class="result-panel">
+        <div id="resultTitle" class="result-title">LEVEL COMPLETE!</div>
+        <div id="stars" class="big-stars">★★★</div>
+        <div id="resultSubtitle">YOU ESCAPED THE VOLCANO!</div>
+        <div class="stats">SCORE: <span id="finalScore">0</span><br>DISTANCE: <span id="finalHeight">0m</span><br>COINS:
+          🪙 <span id="finalCoins">0</span></div>
+        <div class="result-actions"><button class="gold" id="nextBtn">NEXT LEVEL</button><button
+            id="retryBtn">RETRY</button><button id="homeBtn">HOME</button></div>
+      </div>
+    </section>
+
+    <section id="howto" class="screen volcano-bg">
+      <button class="back" data-go="home">←</button>
+      <div class="how-panel">
+        <h2>HOW TO PLAY</h2>
+        <div class="how-row"><span>Move left / right</span><b>A / D or ← / →</b></div>
+        <div class="how-row"><span>Jump</span><b>SPACE / ↑</b></div>
+        <div class="how-row"><span>Temporary safe platform</span><b>E</b></div>
+        <div class="how-row"><span>Pause</span><b>P / ESC</b></div>
+        <p>Move forward, jump between floating platforms, collect coins and stay ahead of the rising lava. Move forward
+          across the platforms and reach the flag to escape!</p>
+        <p style="color:#62efff">BONUS: Activate one temporary safe platform. It lasts 5 seconds.</p>
+        <button class="primary" data-go="home">BACK TO MENU</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const screens = ['home', 'levels', 'gameScreen', 'result', 'howto'];
+    function show(name) { screens.forEach(s => $(s).classList.toggle('active', s === name)); }
+    const levelInfo = [
+      ['TRAINING GROUND', 'EASY', '🌲'], ['LAVA CAVE', 'EASY-MEDIUM', '🌋'], ['BROKEN BRIDGE', 'MEDIUM', '🏰'], ['FIRE TRAP', 'HARD', '🔥'], ['FINAL ESCAPE', 'EXTREME', '🚩']
+    ];
+    let level = 0, best = +(localStorage.lavaEscapeBest || 0), muted = false;
+    $('bestHome').textContent = 'BEST: ' + best;
+    $('levelGrid').innerHTML = levelInfo.map((l, i) => `<div class="level-card"><div class="level-num">${i + 1}</div><div class="level-art"><i>${l[2]}</i></div><div class="level-name">${l[0]}</div><div class="difficulty">${l[1]}</div><div class="stars">☆ ☆ ☆</div><button data-level="${i}">PLAY</button></div>`).join('');
+    $('levelGrid').addEventListener('click', e => { let b = e.target.closest('[data-level]'); if (b) start(+b.dataset.level) });
+    document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
+    $('startBtn').onclick = () => start(0); $('levelBtn').onclick = () => show('levels'); $('howBtn').onclick = () => show('howto');
+    $('settingsBtn').onclick = () => { muted = !muted; $('soundBtn').textContent = muted ? '🔇' : '♫' };
+    $('soundBtn').onclick = () => { muted = !muted; $('soundBtn').textContent = muted ? '🔇' : '♫' };
+
+    const canvas = $('world'), ctx = canvas.getContext('2d');
+    const CW = 960, CH = 510;
+    let player, platforms, coins, cam = 0, lava = 0, score = 0, coinCount = 0, lives = 3, paused = false, playing = false;
+    let safe = null, safeCooldown = 0, keys = {}, last = 0, elapsed = 0, particles = [];
+    const cfgs = [
+      { gap: 95, width: 180, rise: 8 }, { gap: 103, width: 165, rise: 11 }, { gap: 111, width: 150, rise: 14 }, { gap: 119, width: 140, rise: 18 }, { gap: 126, width: 128, rise: 22 }
+    ];
+    function start(n) { level = n; reset(); show('gameScreen'); playing = true; paused = false; last = 0; requestAnimationFrame(loop) }
+    function reset() {
+      let cfg = cfgs[level];
+      player = { x: 90, y: 365, w: 30, h: 40, vx: 0, vy: 0, on: false, inv: 0 };
+      platforms = [{ x: 25, y: 415, w: 220, h: 20 }];
+      let x = 245, baseY = 405;
+      for (let i = 0; i < 30; i++) {
+        baseY = Math.max(245, Math.min(420, baseY + (Math.random() - .5) * 105));
+        platforms.push({ x, y: baseY, w: cfg.width + Math.random() * 28, h: 17, flag: i === 29 });
+        x += 205 + Math.random() * 50;
+      }
+      coins = platforms.slice(2).map(p => ({ x: p.x + p.w / 2, y: p.y - 38, taken: false }));
+      cam = 0; lava = 435; score = 0; coinCount = 0; lives = 3; safe = null; safeCooldown = 0; elapsed = 0; particles = [];
+      updateHud();
+    }
+    function updateHud() {
+      $('lives').textContent = '×' + lives; $('score').textContent = score; $('coins').textContent = coinCount;
+      let distance = Math.max(0, Math.floor((player.x - 90) / 10));
+      let pct = Math.max(0, Math.min(100, Math.floor((player.x / 4700) * 100)));
+      $('height').textContent = distance + 'm'; $('progress').style.width = pct + '%';
+      $('safeLabel').textContent = safe ? `SAFE PLATFORM • ${Math.ceil(safe.time)}s` : safeCooldown > 0 ? `SAFE PLATFORM READY IN ${Math.ceil(safeCooldown)}s` : '';
+    }
+    function jump() { if (playing && !paused && player.on) { player.vy = -620; player.on = false } }
+    function activateSafe() {
+      if (!playing || paused || safe || safeCooldown > 0) return;
+      safe = { x: Math.max(25, Math.min(835, player.x - 35)), y: player.y + player.h + 20, w: 100, h: 16, time: 5 }; safeCooldown = 16;
+    }
+    function end(win) {
+      playing = false; show('result'); $('resultTitle').textContent = win ? 'LEVEL COMPLETE!' : 'GAME OVER';
+      $('resultTitle').classList.toggle('fail', !win); $('stars').style.display = win ? 'block' : 'none';
+      $('resultSubtitle').textContent = win ? 'YOU ESCAPED THE VOLCANO!' : 'YOU FELL INTO THE LAVA!';
+      $('finalScore').textContent = score; $('finalHeight').textContent = win ? '100%' : $('height').textContent; $('finalCoins').textContent = coinCount;
+      $('nextBtn').style.display = win && level < 4 ? 'inline-block' : 'none'; $('retryBtn').textContent = win ? 'PLAY AGAIN' : 'RETRY';
+      if (score > best) { best = score; localStorage.lavaEscapeBest = best; $('bestHome').textContent = 'BEST: ' + best }
+    }
+    function loop(t) { if (!playing) return; let dt = Math.min((t - last) / 1000 || 0, .035); last = t; if (!paused) update(dt); draw(); requestAnimationFrame(loop) }
+    function update(dt) {
+      elapsed += dt; let c = cfgs[level];
+      if (keys.ArrowLeft || keys.a || keys.A) player.vx = -265;
+      else if (keys.ArrowRight || keys.d || keys.D) player.vx = 300;
+      else player.vx *= .82;
+      if (keys.ArrowUp || keys[' '] || keys.w || keys.W) jump();
+      player.x = Math.max(0, player.x + player.vx * dt);
+      let oldBottom = player.y + player.h;
+      player.vy += 1450 * dt; player.y += player.vy * dt; player.on = false;
+      let all = safe ? [...platforms, safe] : platforms;
+      for (let p of all) {
+        if (player.vy >= 0 && oldBottom <= p.y + 9 && player.y + player.h >= p.y && player.x + player.w > p.x && player.x < p.x + p.w) {
+          player.y = p.y - player.h; player.vy = 0; player.on = true;
+        }
+      }
+      for (let c of coins) {
+        if (!c.taken && Math.abs(player.x + 15 - c.x) < 25 && Math.abs(player.y + 15 - c.y) < 28) {
+          c.taken = true; coinCount++; score += 100;
+        }
+      }
+      if (safe) { safe.time -= dt; if (safe.time <= 0) safe = null }
+      safeCooldown = Math.max(0, safeCooldown - dt);
+      cam = Math.max(0, player.x - 300);
+      // Lava rises gradually from below as the player advances.
+      lava -= cfgs[level].rise * dt * 0.45;
+      score = Math.max(score, Math.floor((player.x - 90) / 2));
+      if (player.inv > 0) player.inv -= dt;
+      if (player.y + player.h > lava && player.inv <= 0) {
+        lives--;
+        if (lives <= 0) { updateHud(); end(false); return }
+        player.y = lava - player.h - 85; player.vy = -360; player.inv = 2;
+      }
+      if (player.y > CH + cam + 100) { lives--; if (lives <= 0) { updateHud(); end(false); return } player.y = 250; player.vy = -350; player.inv = 2 }
+      if (player.x >= 4700) { score += 500; updateHud(); end(true); return }
+      updateHud();
+    }
+    function drawBackground() {
+      let g = ctx.createLinearGradient(0, 0, 0, CH); g.addColorStop(0, '#17082f'); g.addColorStop(.55, '#391044'); g.addColorStop(1, '#160720'); ctx.fillStyle = g; ctx.fillRect(0, 0, CW, CH);
+      // jagged cave roof and distant peaks
+      ctx.fillStyle = '#210d39'; ctx.beginPath(); ctx.moveTo(0, 0); for (let x = 0; x <= CW; x += 65)ctx.lineTo(x, 35 + Math.sin(x * .03) * 22); ctx.lineTo(CW, 0); ctx.fill();
+      for (let i = 0; i < 8; i++) { let x = i * 145 - 50; ctx.fillStyle = i % 2 ? '#321044' : '#48113d'; ctx.beginPath(); ctx.moveTo(x, CH); ctx.lineTo(x + 85, 130 + (i % 3) * 45); ctx.lineTo(x + 180, CH); ctx.fill() }
+      // lava falls
+      for (let x of [105, 440, 825]) { ctx.shadowBlur = 22; ctx.shadowColor = '#ff4b13'; ctx.fillStyle = '#ff6418'; ctx.fillRect(x, 90, 15, CH - 90); ctx.fillStyle = '#ffc047'; ctx.fillRect(x + 4, 90, 5, CH - 90); ctx.shadowBlur = 0 }
+    }
+    function drawPlatform(p) {
+      let x = p.x - cam, y = p.y; if (x < -p.w - 30 || x > CW + 30) return;
+      ctx.fillStyle = '#21102f'; ctx.fillRect(x, y, p.w, p.h);
+      ctx.fillStyle = '#61364d'; ctx.fillRect(x, y + 5, p.w, p.h - 5);
+      ctx.fillStyle = '#a3d94b'; ctx.fillRect(x, y, p.w, 5);
+      ctx.fillStyle = '#d5ef76'; for (let i = 4; i < p.w; i += 27)ctx.fillRect(x + i, y - 2, 9, 3);
+      ctx.fillStyle = '#371b42'; for (let i = 10; i < p.w; i += 35)ctx.fillRect(x + i, y + 8, 12, 5);
+      if (p.flag) { ctx.fillStyle = '#d5b6ff'; ctx.fillRect(x + p.w - 15, y - 45, 4, 45); ctx.fillStyle = '#ffcf30'; ctx.fillRect(x + p.w - 11, y - 44, 25, 15) }
+    }
+    function drawPlayer() {
+      let x = player.x - cam - 5, y = player.y - 8;
+      if (player.inv > 0 && Math.floor(elapsed * 12) % 2) return;
+      // Larger, high-contrast pixel adventurer: helmet, visor, backpack and boots.
+      // Keep the sprite crisp while making its silhouette easy to read.
+      ctx.save();
+      ctx.shadowColor = '#090316'; ctx.shadowBlur = 5;
+      // backpack
+      ctx.fillStyle = '#7b35c9'; ctx.fillRect(x + 1, y + 22, 9, 19);
+      ctx.fillStyle = '#c58aff'; ctx.fillRect(x + 2, y + 24, 3, 12);
+      // boots and legs
+      ctx.fillStyle = '#17152f'; ctx.fillRect(x + 8, y + 38, 10, 10); ctx.fillRect(x + 23, y + 38, 10, 10);
+      ctx.fillStyle = '#ffb12b'; ctx.fillRect(x + 7, y + 44, 12, 5); ctx.fillRect(x + 22, y + 44, 12, 5);
+      ctx.fillStyle = '#3146c8'; ctx.fillRect(x + 10, y + 29, 9, 12); ctx.fillRect(x + 23, y + 29, 9, 12);
+      // body / jacket
+      ctx.fillStyle = '#19245c'; ctx.fillRect(x + 8, y + 19, 26, 19);
+      ctx.fillStyle = '#416dff'; ctx.fillRect(x + 11, y + 21, 20, 13);
+      ctx.fillStyle = '#ffe16b'; ctx.fillRect(x + 19, y + 21, 4, 15);
+      // arms and gloves
+      ctx.fillStyle = '#ffb17b'; ctx.fillRect(x + 3, y + 22, 7, 13); ctx.fillRect(x + 32, y + 22, 7, 13);
+      ctx.fillStyle = '#f4c83f'; ctx.fillRect(x + 2, y + 32, 8, 6); ctx.fillRect(x + 32, y + 32, 8, 6);
+      // neck and face
+      ctx.fillStyle = '#e58d65'; ctx.fillRect(x + 16, y + 14, 11, 7);
+      ctx.fillStyle = '#ffbf91'; ctx.fillRect(x + 12, y + 6, 20, 16);
+      // helmet shell and bright rim
+      ctx.fillStyle = '#5a2ca2'; ctx.fillRect(x + 9, y + 2, 27, 10);
+      ctx.fillStyle = '#b77aff'; ctx.fillRect(x + 12, y, 21, 5);
+      ctx.fillStyle = '#f5d9ff'; ctx.fillRect(x + 15, y + 3, 14, 3);
+      // visor with two visible eye highlights
+      ctx.fillStyle = '#14264c'; ctx.fillRect(x + 14, y + 10, 17, 7);
+      ctx.fillStyle = '#69eaff'; ctx.fillRect(x + 17, y + 11, 5, 3);
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(x + 25, y + 11, 3, 3);
+      // small chest badge
+      ctx.fillStyle = '#ffcf38'; ctx.fillRect(x + 25, y + 26, 5, 5);
+      ctx.restore();
+    }
+    function draw() {
+      drawBackground();
+      // lava below current level
+      let ly = lava; let g = ctx.createLinearGradient(0, ly, 0, CH); g.addColorStop(0, '#ffbd37'); g.addColorStop(.12, '#ff5b12'); g.addColorStop(1, '#a30b34'); ctx.fillStyle = g; ctx.fillRect(0, ly, CW, CH - ly);
+      ctx.shadowBlur = 18; ctx.shadowColor = '#ff6714'; ctx.fillStyle = '#ffb52c'; for (let x = 0; x < CW; x += 42) { ctx.beginPath(); ctx.ellipse(x, ly + Math.sin(elapsed * 4 + x) * 4, 19, 7, 0, 0, Math.PI * 2); ctx.fill() } ctx.shadowBlur = 0;
+      platforms.forEach(drawPlatform);
+      coins.forEach(c => { if (c.taken) return; let x = c.x - cam, y = c.y; ctx.shadowBlur = 12; ctx.shadowColor = '#ffc52c'; ctx.fillStyle = '#ffc52c'; ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0; ctx.fillStyle = '#fff2a0'; ctx.fillRect(x - 2, y - 6, 4, 12) });
+      if (safe) { let x = safe.x - cam, y = safe.y; ctx.shadowBlur = 25; ctx.shadowColor = '#39eaff'; ctx.fillStyle = '#4aeaff'; ctx.fillRect(x, y, safe.w, safe.h); ctx.fillStyle = '#c9ffff'; ctx.fillRect(x, y, safe.w, 4); ctx.shadowBlur = 0; ctx.font = 'bold 22px Rajdhani'; ctx.fillStyle = '#73f5ff'; ctx.textAlign = 'center'; ctx.fillText(Math.ceil(safe.time) + 's', x + safe.w / 2, y - 14) }
+      drawPlayer();
+      particles.forEach(p => { ctx.globalAlpha = Math.max(0, p.life * 2); ctx.fillStyle = '#ffb52b'; ctx.fillRect(p.x, p.y, 3, 3) }); ctx.globalAlpha = 1;
+      if (paused) { ctx.fillStyle = '#070314bb'; ctx.fillRect(0, 0, CW, CH); ctx.textAlign = 'center'; ctx.fillStyle = '#ffbd29'; ctx.font = '32px Press Start 2P'; ctx.fillText('PAUSED', CW / 2, CH / 2); ctx.font = '18px Rajdhani'; ctx.fillStyle = 'white'; ctx.fillText('Press P or ESC to resume', CW / 2, CH / 2 + 42) }
+    }
+    $('pauseBtn').onclick = () => { paused = !paused; $('pauseBtn').textContent = paused ? '▶' : 'Ⅱ' };
+    $('nextBtn').onclick = () => start(Math.min(4, level + 1)); $('retryBtn').onclick = () => start(level); $('homeBtn').onclick = () => { playing = false; show('home') };
+    $('safeBtn').onclick = activateSafe; $('jumpBtn').onpointerdown = e => { e.preventDefault(); jump() };
+    function hold(id, key) { let b = $(id); b.onpointerdown = e => { e.preventDefault(); keys[key] = true };['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => keys[key] = false)) }
+    hold('leftBtn', 'ArrowLeft'); hold('rightBtn', 'ArrowRight');
+    window.addEventListener('keydown', e => { keys[e.key] = true; if ([' ', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)) e.preventDefault(); if ((e.key === 'p' || e.key === 'P' || e.key === 'Escape') && playing) { paused = !paused; $('pauseBtn').textContent = paused ? '▶' : 'Ⅱ' } if (e.key === 'e' || e.key === 'E') activateSafe() });
+    window.addEventListener('keyup', e => keys[e.key] = false);
+  </script>
+</body>
+
+</html>
